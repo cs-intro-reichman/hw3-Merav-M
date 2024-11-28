@@ -32,16 +32,25 @@ public class Anagram {
 		str1 = preProcess(str1);
 		str2= preProcess(str2);
 
-    if (str1.length() != str2.length()) {
-        return false;
-    }
-
-    int[] nCharCounter1 = new int[26];
-    int[] nCharCounter2 = new int[26];
+    int[] nCharCounter1 = new int[27];
+    int[] nCharCounter2 = new int[27];
 
     for (int i = 0; i < str1.length(); i++) {
-        nCharCounter1[str1.charAt(i)- 'a']++;
-        nCharCounter2[str2.charAt(i)- 'a']++;
+		if (str1.charAt(i) == ' '){
+		nCharCounter1[26]++;
+		}
+		else{
+		nCharCounter1[str1.charAt(i) - 'a']++;
+		}
+	}
+
+	for (int i = 0; i < str2.length(); i++) {
+		if (str2.charAt(i) == ' '){
+			nCharCounter2[26]++;
+		}
+		else{
+			nCharCounter2[str2.charAt(i) - 'a']++;
+		}
     }
 
     for (int i = 0; i < 26; i++) {
@@ -63,7 +72,7 @@ public class Anagram {
 	  for (int i = 0; i < str.length(); i++) {
         char c = str.charAt(i);
 
-			if (c >= 'a' && c <= 'z') {
+			if ((c >= 'a' && c <= 'z') || c ==' ') {
 				sRetValue += c;
 			}
 			else if (c >= 'A' && c <= 'Z') {
@@ -81,13 +90,13 @@ public class Anagram {
 
 		str = preProcess(str);
 
-	   	 boolean[] bUsedChar = new boolean[str.length()];
-	   	 String sRetValue = ""; 
 	   	 int nLength = str.length();
+	   	 boolean[] bUsedChar = new boolean[nLength];
+	   	 String sRetValue = ""; 
 
     	while (sRetValue.length() < nLength) {
 
-        	int randomIndex = (int) (Math.random() * str.length());
+        	int randomIndex = (int) (Math.random() * nLength);
 
         	if (!bUsedChar[randomIndex]) {
             	sRetValue += str.charAt(randomIndex);
