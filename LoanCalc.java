@@ -32,7 +32,7 @@ public class LoanCalc {
 		rate = rate/100;
 
         for (int i = 0; i < n; i++) {
-            dBalance = dBalance * (1 + rate);
+            dBalance = (dBalance - payment) * (1 + rate);
         }
         return dBalance;
 	}
@@ -46,7 +46,8 @@ public class LoanCalc {
 		iterationCounter = 0;
 		double dPayment = loan / n;
 	
-		while (endBalance(loan, rate, n, dPayment) > epsilon) {
+		while (endBalance(loan, rate, n, dPayment) > 0) {
+			
 			dPayment += epsilon;
 			iterationCounter++;
 		}
