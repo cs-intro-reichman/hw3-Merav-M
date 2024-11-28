@@ -25,43 +25,114 @@ public class Algebra {
 
 	// Returns x1 + x2
 	public static int plus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		while (x2 > 0) {
+			x1++;
+			x2--;
+		}
+		while (x2 < 0) {
+			x1--;
+			x2++;
+		}
+		return x1;
 	}
 
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		while (x2 > 0) {
+			x1--;
+			x2--;
+		}
+		while (x2 < 0) {
+			x1++;
+			x2++;
+		}
+		return x1;
 	}
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		int nRetValue = 0;
+		boolean bIsX2Negative = x2 < 0;
+
+		if( x1 != 0 && x2 != 0 )
+		{
+			x2 = bIsX2Negative ? minus(0, x2) : x2;
+			for ( int i = 0; i < x2 ; i++ ){
+				nRetValue = plus(nRetValue,x1);
+			}
+		}
+
+		return bIsX2Negative ? minus(0, nRetValue) : nRetValue;
 	}
 
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
-		// Replace the following statement with your code
-		return 0;
+		int nRetValue = 1;
+		if (x !=1){
+
+			for ( int i = 0; i < n ; i++){
+				nRetValue = times(nRetValue,x);
+			}
+		}
+		return nRetValue;
 	}
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+
+		int nRetValue = 0;
+		boolean bIsResultNegative = false;
+		if(x2 != 0){
+			if (x1 < 0) {
+				x1 = minus(0, x1);
+				bIsResultNegative = !bIsResultNegative;
+			}
+			if (x2 < 0) {
+				x2 = minus(0, x2);
+				bIsResultNegative = !bIsResultNegative;
+			}
+
+			while (x1 > 0 && x1>= x2)
+			{
+				x1 = minus(x1,x2);
+				nRetValue++;
+			}
+		}
+		
+		return (bIsResultNegative) ? minus(0,nRetValue) : nRetValue ;
 	}
 
 	// Returns x1 % x2
 	public static int mod(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+
+		boolean bIsResultNegative = false;
+		if (x1 < 0) {
+			x1 = minus(0, x1);
+			bIsResultNegative = !bIsResultNegative;
+		}
+		if (x2 < 0) {
+			x2 = minus(0, x2);
+			bIsResultNegative = !bIsResultNegative;
+		}
+		
+		while (x1 >= x2)
+		{
+			x1 = minus(x1,x2);
+		}
+
+		return bIsResultNegative ?  minus(0,x1) : x1;
 	}	
 
 	// Returns the integer part of sqrt(x) 
 	public static int sqrt(int x) {
-		// Replace the following statement with your code
-		return 0;
-	}	  	  
+		int nRetValue = 0;
+        int nSquare = 0;
+        while (nSquare <= x) {
+            nRetValue++;
+            nSquare = times(nRetValue, nRetValue);
+        }
+
+        return minus(nRetValue, 1);
+	}	  
+		  
 }
