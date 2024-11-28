@@ -29,8 +29,10 @@ public class LoanCalc {
 	// interest rate (as a percentage), the number of periods (n), and the periodical payment.
 	private static double endBalance(double loan, double rate, int n, double payment) {	
 		double dBalance = loan;
+		rate = rate/100;
+
         for (int i = 0; i < n; i++) {
-            dBalance = dBalance * (1 + rate) - payment;
+            dBalance = dBalance * (1 + rate);
         }
         return dBalance;
 	}
@@ -42,13 +44,13 @@ public class LoanCalc {
 	// Side effect: modifies the class variable iterationCounter.
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
 		iterationCounter = 0;
-		double dGuess = loan / n;
+		double dPayment = loan / n;
 	
-		while (endBalance(loan, rate, n, dGuess) > epsilon) {
-			dGuess += epsilon;
+		while (endBalance(loan, rate, n, dPayment) > epsilon) {
+			dPayment += epsilon;
 			iterationCounter++;
 		}
-		return dGuess;
+		return dPayment;
     }
     
     // Uses bisection search to compute an approximation of the periodical payment 
@@ -58,20 +60,22 @@ public class LoanCalc {
 	// Side effect: modifies the class variable iterationCounter.
     public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
         iterationCounter = 0; 
-        double dLowerBound = 0; 
-        double dUpperBound = loan * (1 + rate); // Upper bound
+        double dLowerBound = loan/ n; 
+        double dUpperBound = loan; // Upper bound
         double dMiddle = 0;
 
         while ((dUpperBound - dLowerBound) > epsilon) {
             dMiddle = (dLowerBound + dUpperBound) / 2;
-            double fMid = endBalance(loan, rate, n, dMiddle);
-            double fLo = endBalance(loan, rate, n, dLowerBound);
+			double dCurrBalance = endBalance(loan, rate, n, dMiddle);
 
-            if (fMid * fLo > 0) {
+            if (dCurrBalance > epsilon) {
                 dLowerBound = dMiddle;
-            } else {
+            } else if(dCurrBalance < -epsilon){
                 dUpperBound = dMiddle;
-            }
+            } else {
+				return dMiddle;
+			}
+			
             iterationCounter++;
         }
         return (dLowerBound + dUpperBound) / 2;
