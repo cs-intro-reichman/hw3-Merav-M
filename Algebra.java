@@ -115,12 +115,12 @@ public class Algebra {
 			bIsResultNegative = !bIsResultNegative;
 		}
 		
-		while (x1 > 0)
+		while (x1 >= x2)
 		{
 			x1 = minus(x1,x2);
 		}
 
-		return bIsResultNegative ? x1 : minus(0,x1);
+		return bIsResultNegative ?  minus(0,x1) : x1;
 	}	
 
 	// Returns the integer part of sqrt(x) 
